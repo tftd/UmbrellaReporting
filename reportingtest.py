@@ -5,8 +5,8 @@ from requests.auth import HTTPBasicAuth
 
 org_id = <OrgID>
 
-report_api_key = <Reporting API Key>
-report_api_secret = <Reporting API Secret>
+mgmt_api_key = <Management API Key>
+mgmt_api_secret = <Management API Secret>
 
 header = {'content-type': 'application/json'}
 
@@ -15,7 +15,7 @@ mgmt_api_url = 'https://management.api.umbrella.com/auth/v2/oauth2/token'
 reporting_api_url = 'https://reports.api.umbrella.com/v2'
 
 
-r = requests.get(mgmt_api_url, headers=header, auth=HTTPBasicAuth(report_api_key, report_api_secret))
+r = requests.get(mgmt_api_url, headers=header, auth=HTTPBasicAuth(mgmt_api_key, mgmt_api_secret))
 print (r.status_code)
 body = json.loads(r.content)
 
