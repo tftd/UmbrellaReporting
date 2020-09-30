@@ -20,7 +20,7 @@ print (r.status_code)
 body = json.loads(r.content)
 
 access_token = body['access_token']
-category = "/organizations/"+org_id+"/summaryfrom=-5days&to=now"
+category = "/organizations/"+org_id+"/summary?from=-5days&to=now"
 
 header['Authorization'] = 'Bearer {}'.format(access_token)
 
