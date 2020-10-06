@@ -1,7 +1,17 @@
 import json
 import requests
 from requests.auth import HTTPBasicAuth
+from requests import Session
 
+class NoRebuildAuthSession(Session):
+    def rebuild_auth(self, prepared_request, response):
+        """
+        No code here means requests will always preserve the Authorization
+        header when redirected.
+        Be careful not to leak your credentials to untrusted hosts!
+        """
+
+session = NoRebuildAuthSession()
 
 org_id = <OrgID>
 
@@ -24,7 +34,7 @@ category = "/organizations/"+org_id+"/summary?from=-7days&to=now"
 
 header['Authorization'] = 'Bearer {}'.format(access_token)
 
-r = requests.get(reporting_api_url+category, headers=header)
+r = session.get(reporting_api_url+category, headers=header)
 print (r.status_code)
 content = json.loads(r.content)
 
