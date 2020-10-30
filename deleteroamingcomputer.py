@@ -17,12 +17,13 @@ def csvtojson(csvFilePath):
 
     return computername
 
-print("Please make sure that the device name present in the sheet is validated. \nIt should not have any random alphabets present as name because the API filters the name with \" contains \" rather than \" equals \"." )
+print("Please make sure that the device name present in the sheet is validated. \nIt should not have any random alphabets present as name because the API filters the name with \" starts with \" rather than \" equals \"." )
 csvFilePath = input("Please enter the CSV Filepath (For eg. : path/to/file/objects.csv) :")
 
-org_id = "2659340"
-mgmt_api_key = "1d116a2b547147d8b7b9fba442f3a174"
-mgmt_api_secret = "30f0fccf55f746f0a0547745c4a89c9c"
+org_id = "<ORG-ID>"
+mgmt_api_key = "<Management API Key>"
+
+mgmt_api_secret = input("Please provide the Management API Secret : ")
 
 header = {'content-type': 'application/json'}
 
@@ -36,7 +37,11 @@ for name in names:
     mgmt_api_url = 'https://management.api.umbrella.com/v1/organizations/'+org_id+'/roamingcomputers?name='+name[0]
 
     r = requests.request("GET",mgmt_api_url, headers=header, auth=HTTPBasicAuth(mgmt_api_key, mgmt_api_secret))
-
+    
+    if r.status_code != 200 :
+        log.write("Error with the request : " + r.text)
+        break
+    
     body = json.loads(r.content)
     
     if body != []:
